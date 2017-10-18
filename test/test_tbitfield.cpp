@@ -218,9 +218,11 @@ TEST(TBitField, and_operator_applied_to_bitfields_of_non_equal_size)
   bf2.SetBit(3);
 
   // expBf = 00010
+  expBf.SetBit(1);
+  expBf.SetBit(2);
   expBf.SetBit(3);
 
-  EXPECT_EQ(expBf, bf1 & bf2);
+  EXPECT_EQ(expBf, bf1 | bf2);
 }
 
 TEST(TBitField, can_invert_bitfield)
@@ -249,25 +251,6 @@ TEST(TBitField, can_invert_large_bitfield)
   expNegBf.ClrBit(35);
 
   EXPECT_EQ(expNegBf, negBf);
-}
-
-TEST(TBitField, invert_plus_and_operator_on_different_size_bitfield)
-{
-  const int firstSze = 4, secondSize = 8;
-  TBitField firstBf(firstSze), negFirstBf(firstSze), secondBf(secondSize), testBf(secondSize);
-  // firstBf = 0001
-  firstBf.SetBit(0);
-  negFirstBf = ~firstBf;
-  // negFirstBf = 1110
-
-  // secondBf = 00011000
-  secondBf.SetBit(3);
-  secondBf.SetBit(4);
-
-  // testBf = 00001000
-  testBf.SetBit(3);
-
-  EXPECT_EQ(secondBf & negFirstBf, testBf);
 }
 
 TEST(TBitField, can_invert_many_random_bits_bitfield)
@@ -309,3 +292,73 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
 
   EXPECT_NE(bf1, bf2);
 }
+
+TEST(TBitField, novuu_test1)
+{
+	TBitField set1(100), set2(200), set3(200);
+	set1.SetBit(1);
+	set1.SetBit(50);
+	set1.SetBit(90);
+	set2.SetBit(1);
+	set2.SetBit(50);
+	set2.SetBit(150);
+	set2.SetBit(170);
+	set3.SetBit(1);
+	set3.SetBit(50);
+	set3.SetBit(90);
+	set3.SetBit(150);
+	set3.SetBit(170);
+
+	EXPECT_EQ(set3, set1|set2);
+}
+
+TEST(TBitField, novuu_test2)
+{
+	TBitField set1(100), set2(200), set3(200);
+	set1.SetBit(1);
+	set1.SetBit(50);
+	set1.SetBit(90);
+	set2.SetBit(1);
+	set2.SetBit(50);
+	set2.SetBit(150);
+	set2.SetBit(170);
+	set3.SetBit(1);
+	set3.SetBit(50);
+	set3.SetBit(90);
+	set3.SetBit(150);
+	set3.SetBit(170);
+
+	EXPECT_EQ(set3, set2|set1);
+}
+
+TEST(TBitField, novuu_test3)
+{
+	TBitField set1(100), set2(200), set3(100);
+	set1.SetBit(1);
+	set1.SetBit(50);
+	set1.SetBit(90);
+	set2.SetBit(1);
+	set2.SetBit(50);
+	set2.SetBit(150);
+	set2.SetBit(170);
+	set3.SetBit(1);
+	set3.SetBit(50);
+
+	EXPECT_EQ(set3, set1&set2);
+}
+
+TEST(TBitField, novuu_test4)
+{
+	TBitField set1(100), set2(200), set3(100);
+	set1.SetBit(1);
+	set1.SetBit(50);
+	set1.SetBit(90);
+	set2.SetBit(1);
+	set2.SetBit(50);
+	set2.SetBit(150);
+	set2.SetBit(170);
+	set3.SetBit(1);
+	set3.SetBit(50);
+
+	EXPECT_EQ(set3, set2&set1);
+}	

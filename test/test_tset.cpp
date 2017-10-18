@@ -2,9 +2,9 @@
 
 #include <gtest.h>
 
-TEST(TSet, can_get_max_power_set) ///
+TEST(TSet, can_get_max_power_set)
 {
-  const int size = 10;
+  const int size = 5;
   TSet set(size);
 
   EXPECT_EQ(size, set.GetMaxPower());
@@ -261,7 +261,7 @@ TEST(TSet, can_intersect_two_sets_of_equal_size)
 TEST(TSet, can_intersect_two_sets_of_non_equal_size)
 {
   const int size1 = 5, size2 = 7;
-  TSet set1(size1), set2(size2), set3(size1), expSet(size2);
+  TSet set1(size1), set2(size2), set3(size1), expSet(size1);
   // set1 = {1, 2, 4}
   set1.InsElem(1);
   set1.InsElem(2);
@@ -295,4 +295,26 @@ TEST(TSet, check_negation_operator)
 
   EXPECT_EQ(expSet, set1);
 }
+
+TEST(TSet, novuu_test)
+{
+	TSet set1(10), set2(6);
+	//set1 = {0,1,2};
+	set1.InsElem(0);
+	set1.InsElem(1);
+	set1.InsElem(2);
+	//set2{3,4,5};
+	set2.InsElem(3);
+	set2.InsElem(4);
+	set2.InsElem(5);
+	TSet set3(6), expSet(6);
+	set3=set1*(~set2);
+	//expSet{0,1,2};
+	expSet.InsElem(0);
+	expSet.InsElem(1);
+	expSet.InsElem(2);
+
+	EXPECT_EQ(expSet, set3);
+} 
+
 
